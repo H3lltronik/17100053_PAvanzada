@@ -11,15 +11,25 @@ namespace Programacion_Avanzada {
 				Console.WriteLine("Ingrese el numerador de la fraccion 1");
 				num1 = int.Parse(Console.ReadLine());
 
-				Console.WriteLine("Ingrese el denominador de la fraccion 1");
-				den1 = int.Parse(Console.ReadLine());
+				do {
+					Console.WriteLine("Ingrese el denominador de la fraccion 1");
+					den1 = int.Parse(Console.ReadLine());
+					if (den1 == 0) {
+						Console.WriteLine("El denominador no puede ser 0");
+					}
+				} while (den1 == 0);
 
 				//Ingresar valores de la segunda fraccion
 				Console.WriteLine("Ingrese el numerador de la fraccion 2");
 				num2 = int.Parse(Console.ReadLine());
 
-				Console.WriteLine("Ingrese el denominador de la fraccion 2");
-				den2 = int.Parse(Console.ReadLine());
+				do {
+					Console.WriteLine("Ingrese el denominador de la fraccion 2");
+					den2 = int.Parse(Console.ReadLine());
+					if (den2 == 0) {
+						Console.WriteLine("El denominador no puede ser 0");
+					}
+				} while (den2 == 0);
 
 				Console.Clear();
 

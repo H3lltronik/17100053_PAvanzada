@@ -121,17 +121,20 @@ namespace Programacion_Avanzada {
 		// Retorna la fraccion simplificada en una cadena de texto
 		public string Simplificar(int x, int y) {
 			string cadena = "";
-			// Si la division da 1
-			if (x / y == 1) {
+			
+			if (y == 0) { // Si la division da indeterminacino x/0
+				cadena += "Indeterminacion " + x + "/0";
+			} else if (x / y == 1) { // Si la division da 1
 				cadena += "1";
-			// Buscando si numerador y denominador son divisible para simplificar entre sus valores
-			} else if (x % y == 0) {
+			} else if (x == 0) {
+				cadena += "0";
+			} else if (x % y == 0) {// Buscando si numerador y denominador son divisible para simplificar entre sus valores
+				if (x / y > 0)
 				cadena += (x / y);
-			// Buscando si denominador y numerador son divisible para simplificar entre sus valores
-			} else if (y % x == 0) {
-				cadena += (x / x) + "/" + (y / x);
-			// Dividiendo en mitades ambos numeros mientras no tengan residuo, division perfecta entre 2
-			} else {
+			} else if (y % x == 0) { // Buscando si denominador y numerador son divisible para simplificar entre sus valores
+				if (((float)(x) / (float)(y)) > 0)
+					cadena += (x / x) + "/" + (y / x);
+			} else { // Dividiendo en mitades ambos numeros mientras no tengan residuo, division perfecta entre 2
 				while (x % 2 == 0 && y % 2 == 0) {
 					x /= 2;
 					y /= 2;
@@ -152,8 +155,15 @@ namespace Programacion_Avanzada {
 				case 1: {
 						if (this.resultado.getEntero() == 0) {
 							Console.WriteLine("El resultado es: " + Simplificar(resultado.GetNumerador(), resultado.GetDenominador()));
-						} else
-							Console.WriteLine("El resultado es: " + resultado.getEntero() + " " + Simplificar(resultado.GetNumerador(), resultado.GetDenominador()));
+						} else {
+							string auxSimplif = "";
+							// Para que no muestre como fraccion simplificada en fraccionn mixta
+							if (resultado.GetNumerador() > 0 && resultado.GetDenominador() > 0) {
+								auxSimplif = Simplificar(resultado.GetNumerador(), resultado.GetDenominador());
+							}
+							Console.WriteLine("El resultado es: " + resultado.getEntero() + " " + auxSimplif);
+						}
+
 							Console.WriteLine(" cuyo valor decimal es: " + ((float)resultado.GetNumerador() / (float)resultado.GetDenominador() + resultado.getEntero()) );
 						break;
 					}

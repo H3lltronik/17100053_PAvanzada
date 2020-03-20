@@ -38,9 +38,11 @@ namespace Programacion_Avanzada {
 		}
 		// Transforma  una fraccion impropia en una mixta 
 		public void Mixto() {
-			Entero = (int)(Numerador / Denominador);
-			int temp = (int)(Numerador / Denominador);
-			Numerador = (Numerador) - (Entero * Denominador);
+			if (!Indeterminacion()) {
+				Entero = (int)(Numerador / Denominador);
+				int temp = (int)(Numerador / Denominador);
+				Numerador = (Numerador) - (Entero * Denominador);
+			}
 		}
 
 		public int getEntero() { return Entero; }
