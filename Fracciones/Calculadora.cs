@@ -1,118 +1,97 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Programacion_Avanzada {
 	//Calculadora de fracciones xd
 	class Calculadora {
-		Fraccion fraccion1, fraccion2, resultado;
-		int x1, x2, y1, y2;
-		public Calculadora(int num1, int den1, int num2, int den2) {
-			fraccion1 = new Fraccion(num1, den1);
-			fraccion2 = new Fraccion(num2, den2);
-			resultado = new Fraccion();
-			//Son los numeros originales que ingreso el usuario
-			x1 = num1; x2 = num2;
-			y1 = den1; y2 = den2;
-			//Simplificar ecuaciones individualmente
-			fraccion1.Simplificar();
-			fraccion2.Simplificar();
-		}
-		public void Suma() {
-			int tempNum = 0, tempDen = 0;
-			/*
-			Siendo las fraccion a/b + c/d = x/y
-				x = (a*d)+(b*c)
-				y = (d*b)
-			*/
-			tempNum = ((fraccion1.GetNumerador()) * (fraccion2.GetDenominador())) + ((fraccion1.GetDenominador() * (fraccion2.GetNumerador())));
-			tempDen = fraccion1.GetDenominador() * (fraccion2.GetDenominador());
-			resultado.SetValores(tempNum, tempDen);
-			resultado.Mixto();
-			VerResultado();
-		}
+		List<Fraccion> fracciones;
+		Fraccion resultado;
 
-		public void Resta() {
-			int tempNum = 0, tempDen = 0;
-			/*
-			Siendo las fraccion a/b - c/d = x/y
-				x = (a*d)-(b*c)
-				y = (d*b)
-			*/
-			tempNum = ((fraccion1.GetNumerador()) * (fraccion2.GetDenominador())) - ((fraccion1.GetDenominador() * (fraccion2.GetNumerador())));
-			tempDen = fraccion1.GetDenominador() * (fraccion2.GetDenominador());
-			resultado.SetValores(tempNum, tempDen);
-			resultado.Mixto();
-			VerResultado();
+		public Calculadora() {
+			this.fracciones = new List<Fraccion>();
 		}
-		public void Multiplicacion() {
-			int auxX1 = fraccion1.GetNumerador(), auxX2 = fraccion2.GetNumerador(), auxY1 = fraccion1.GetDenominador(), auxY2 = fraccion2.GetDenominador();
-			/*
-			Siendo las fraccion a/b * c/d = x/y
-				x = (a*c)
-				y = (d*b)
-			*/
-			resultado.SetValores(auxX1 * auxX2, auxY1 * auxY2);
-			resultado.Mixto();
-			VerResultado();
-		}
-		public void Division() {
-			int tempNum = 0, tempDen = 0;
-			/*
-			Siendo las fraccion a/b / c/d = x/y
-				x = (a*d)
-				y = (b*c)
-			*/
-			tempNum = ((fraccion1.GetNumerador()) * (fraccion2.GetDenominador()));
-			tempDen = fraccion1.GetDenominador() * (fraccion2.GetNumerador());
-			resultado.SetValores(tempNum, tempDen);
-			resultado.Mixto();
-			VerResultado();
-		}
+		public void Suma () {
+			try {
+				this.resultado = this.fracciones[0];
+				List<Fraccion> tempList = new List<Fraccion>(this.fracciones);
+				tempList.RemoveAt(0);
 
-		public void Operacion() {
-			int op;
-
-			do {
-				Console.WriteLine("Fraccion 1  = " + x1 + "/" + y1);
-				Console.WriteLine("Fraccion 2  = " + x2 + "/" + y2 + "\n\n");
-
-				Console.WriteLine("Que operacion desea realizar? \n1.- Suma\n2.- Resta\n3.- Multiplicacion\n4.- Division\n5.- Salir");
-				op = int.Parse(Console.ReadLine());
-				switch (op) {
-					case 1: {
-							Suma();
-							Console.ReadKey(); // Pausa
-							Console.Clear(); // Limpiar consola
-							break;
-						}
-					case 2: {
-							Resta();
-							Console.ReadKey(); // Pausa
-							Console.Clear();  // Limpiar consola
-							break;
-						}
-					case 3: {
-							Multiplicacion();
-							Console.ReadKey(); // Pausa
-							Console.Clear(); // Limpiar consola
-							break;
-						}
-					case 4: {
-							Division();
-							Console.ReadKey(); // Pausa
-							Console.Clear(); // Limpiar consola
-							break;
-						}
+				foreach (Fraccion fraccion in tempList) {
+					this.resultado = this.resultado.suma(fraccion);
 				}
-			} while (op != 5);
-
+			} catch (ArgumentOutOfRangeException exc) {
+				Console.WriteLine("No se ha ingresado ni una fraccion!");
+			}
 		}
 
-		public void LiberarMemoria() {
-			fraccion1 = null;
-			fraccion2 = null;
-			resultado = null;
+		public void Resta () {
+			try {
+				this.resultado = this.fracciones[0];
+				List<Fraccion> tempList = new List<Fraccion>(this.fracciones);
+				tempList.RemoveAt(0);
+
+				foreach (Fraccion fraccion in tempList) {
+					this.resultado = this.resultado.resta(fraccion);
+				}
+			} catch (ArgumentOutOfRangeException exc) {
+				Console.WriteLine("No se ha ingresado ni una fraccion!");
+			}
+			
+		}
+		public void Multiplicacion () {
+			try {
+				this.resultado = this.fracciones[0];
+				List<Fraccion> tempList = new List<Fraccion>(this.fracciones);
+				tempList.RemoveAt(0);
+
+				foreach (Fraccion fraccion in tempList) {
+					this.resultado = this.resultado.multiplicacion(fraccion);
+				}
+			} catch (ArgumentOutOfRangeException exc) {
+				Console.WriteLine("No se ha ingresado ni una fraccion!");
+			}
+		}
+		public void Division () {
+			try {
+				this.resultado = this.fracciones[0];
+				List<Fraccion> tempList = new List<Fraccion>(this.fracciones);
+				tempList.RemoveAt(0);
+
+				foreach (Fraccion fraccion in tempList) {
+					this.resultado = this.resultado.division(fraccion);
+				}
+			} catch (ArgumentOutOfRangeException exc) {
+				Console.WriteLine("No se ha ingresado ni una fraccion!");
+			}
+		}
+
+		public void añadirFraccion (Fraccion fraccion) {
+			if (fraccion.GetDenominador() == 0) {
+				Console.WriteLine("El denominador no puede ser 0 jamas!");
+				return;
+			} else {
+				this.fracciones.Add(fraccion);
+				Console.WriteLine("Se ha añadido la fraccion!");
+			}
+		}
+
+		public void removerFraccion (int indice) {
+			if (this.fracciones.Count <= 0) {
+				Console.WriteLine("No se ha ingresado ni una fraccion!");
+			} else 
+				this.fracciones.RemoveAt(indice);
+		}
+
+		public void añadirFraccion(int numerador, int denominador) {
+			if (denominador == 0) {
+				Console.WriteLine("El denominador no puede ser 0 jamas!");
+				return;
+			} else {
+				this.fracciones.Add(new Fraccion(numerador, denominador));
+				Console.WriteLine("Se ha añadido la fraccion!");
+			}
 		}
 
 		//para hacerlo misto xd
@@ -146,7 +125,7 @@ namespace Programacion_Avanzada {
 		}
 
 		//Aqui se simplifica el resultado de la operacion
-		public void VerResultado() {
+		/*public void VerResultado() {
 			int sim = 0;
 			Console.WriteLine("Desea simplificar el resultado?\n1.-Si\n2.-No");
 			sim = int.Parse(Console.ReadLine());
@@ -175,6 +154,25 @@ namespace Programacion_Avanzada {
 						Console.WriteLine("cuyo valor decimal es: " + ((float)resultado.GetNumerador() / (float)resultado.GetDenominador() + resultado.getEntero()) );
 						break;
 					}
+			}
+		}*/
+
+		public List<Fraccion> obtenerFracciones () {
+			return this.fracciones;
+		}
+
+		public Fraccion getResultado () {
+			return this.resultado;
+		}
+
+		 public void mostrarFracciones (bool mixto = false) {
+			int index = 1;
+			foreach (Fraccion fraccion in fracciones) {
+				if (mixto) {
+					Console.WriteLine($"Fraccion {index++}: {fraccion.Mixto()}");
+				} else {
+					Console.WriteLine($"Fraccion {index++}: {fraccion}");
+				}
 			}
 		}
 	};
